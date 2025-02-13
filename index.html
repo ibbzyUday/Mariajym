@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria, Be My Valentine?</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: limegreen;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .bear {
+            width: 150px;
+            height: auto;
+            animation: float 2s infinite alternate;
+        }
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .yes {
+            background-color: #ff69b4;
+            color: white;
+        }
+        .no {
+            background-color: #ccc;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maria, will you be my Valentine? 💖</h1>
+        <img src="media\kisses.gif" alt="Cute Bear" class="bear">
+        <div class="buttons">
+            <button class="btn yes" id="yes">Yes 💕</button>
+            <button class="btn no" id="no">No 💔</button>
+        </div>
+        <div id="videoContainer"></div>
+    </div>
+
+    <script>
+        let noButton = document.getElementById("no");
+        let yesButton = document.getElementById("yes");
+        let messages = [
+            "Are you sure?",
+            "Really sure?",
+            "Think about it...",
+            "Last chance!",
+            "You might regret this...",
+            "Are you absolutely certain?",
+            "You have a good heart, surely not?",
+            "Don't be so cold...",
+            "Change of heart?",
+            "Is this your final answer?",
+            "The bears will be heartbroken...",
+            "You wrote love letters!",
+            "I made you that really good pasta that one time!",
+            "They will cry little bear tears!",
+            "You're breaking boops little heart!",
+            "Love is in the air, don’t resist it!"
+        ];
+        let index = 0;
+        noButton.addEventListener("click", function() {
+            if (index < messages.length) {
+                noButton.innerText = messages[index];
+                index++;
+                yesButton.style.fontSize = `${20 + index * 5}px`;
+            } else {
+                alert("Okay, you will be my valentine next year and the years there after 😭");
+            }
+        });
+
+        yesButton.addEventListener("click", function() {
+            let video = document.createElement('iframe');
+            video.width = '560';
+            video.height = '315';
+            video.src = 'https://www.youtube.com/embed/DeggZZLnyHU?autoplay=1&rel=0';
+            video.frameBorder = '0';
+            video.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            video.allowFullscreen = true;
+            let container = document.getElementById("videoContainer");
+            container.innerHTML = "";
+            container.appendChild(video);
+            
+            alert("Yay! The peoples are happy! 🐻💕");
+        });
+    </script>
+</body>
+</html>
