@@ -3,104 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maria, Be My Valentine?</title>
+    <title>Will You Be My Valentine, Maria?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --secondary-pink: #ff8fa3;
+            --soft-pink: #fff0f3;
+            --accent-purple: #c9184a;
+        }
+
         body {
-            text-align: center;
-            background-color: limegreen;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            transition: background 1s ease;
         }
+
+        #floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
-            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
         }
-        .bear {
-            width: 150px;
-            height: auto;
-            animation: float 2s infinite alternate;
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--accent-purple);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
         }
-        @keyframes float {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-10px); }
+
+        .main-media {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 1.5rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.2);
         }
+
+        .main-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .buttons {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
         }
+
         .btn {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        .yes {
-            background-color: #ff69b4;
+
+        #yes-btn {
+            background-color: var(--primary-pink);
             color: white;
+            position: relative;
         }
-        .no {
-            background-color: #ccc;
-            color: black;
+
+        #yes-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-purple);
+        }
+
+        #no-btn {
+            background-color: #eee;
+            color: #666;
+            transition: all 0.2s ease;
+        }
+
+        .celebration {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .celebration h2 {
+            font-family: 'Pacifico', cursive;
+            color: var(--accent-purple);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .heartbeat {
+            font-size: 4rem;
+            animation: heartbeat 1.2s infinite ease-in-out;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .heart-bg {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.4);
+            font-size: 20px;
+            user-select: none;
+            z-index: 0;
+            animation: float 5s linear infinite;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+
+        #quote-container {
+            margin-top: 1rem;
+            font-style: italic;
+            color: var(--accent-purple);
+            min-height: 2.5em;
+            transition: opacity 0.5s ease;
+            font-weight: 500;
+        }
+
+        .secret-btn {
+            background-color: var(--secondary-pink);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .secret-btn:hover {
+            background-color: var(--primary-pink);
+        }
+
+        #secret-message {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--soft-pink);
+            border-radius: 15px;
+            color: var(--accent-purple);
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
+
+        #reset-btn {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 0.7rem;
+            z-index: 10;
+        }
+
+        .music-toggle {
+            background: var(--soft-pink);
+            border: 2px solid var(--primary-pink);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            color: var(--accent-purple);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem auto;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.2);
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        #reset-btn:hover {
+            color: var(--primary-pink);
+        }
+
+        .burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            animation: burstEffect 0.5s ease-out forwards;
+        }
+
+        @keyframes burstEffect {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Maria, will you be my Valentine? 💖</h1>
-        <img src="media\kisses.gif" alt="Cute Bear" class="bear">
-        <div class="buttons">
-            <button class="btn yes" id="yes">Yes 💕</button>
-            <button class="btn no" id="no">No 💔</button>
+    <div id="floating-hearts"></div>
+
+    <div class="container" id="main-container">
+        <div id="ask-screen">
+            <h1>Will you be my Valentine, Maria? 💖</h1>
+            <div class="main-media">
+                <img src="./media/kisses.gif" alt="Cute bear with hearts" id="main-gif">
+            </div>
+            <div class="buttons">
+                <button id="yes-btn" class="btn">YES! 💘</button>
+                <button id="no-btn" class="btn">No...</button>
+            </div>
         </div>
-        <div id="videoContainer"></div>
+
+        <div id="celebration-screen" class="celebration">
+            <h2>Yaaaay! 🎉❤️</h2>
+            <div class="main-media">
+                <img src="./media/kisses.gif" alt="Happy bear" style="width: 100%; border-radius: 20px;">
+            </div>
+            <p style="font-size: 1.3rem; color: #ff4d6d; font-weight: bold; margin: 0.5rem 0;">I love you so much, Maria! 🥰</p>
+
+            <div id="quote-container">"Every moment with you is a gift."</div>
+
+            <button class="secret-btn" id="show-secret">A Secret for You... 🤫</button>
+            <div id="secret-message">You're the best thing that ever happened to me! ❤️</div>
+
+            <button id="music-toggle" class="music-toggle">🔊</button>
+
+            <div class="heartbeat">❤️</div>
+        </div>
     </div>
 
+    <audio id="bg-music" loop>
+        <source src="./media/romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="reset-btn">Reset</button>
+
     <script>
-        let noButton = document.getElementById("no");
-        let yesButton = document.getElementById("yes");
-        let messages = [
-            "Are you sure?",
-            "Really sure?",
-            "Think about it...",
-            "Last chance!",
-            "You might regret this...",
-            "Are you absolutely certain?",
-            "You have a good heart, surely not?",
-            "Don't be so cold...",
-            "Change of heart?",
-            "Is this your final answer?",
-            "The bears will be heartbroken...",
-            "You wrote love letters!",
-            "I made you that really good pasta that one time!",
-            "They will cry little bear tears!",
-            "You're breaking boops little heart!",
-            "Love is in the air, don’t resist it!"
+        const yesBtn = document.getElementById('yes-btn');
+        const bgMusic = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const noBtn = document.getElementById('no-btn');
+        const askScreen = document.getElementById('ask-screen');
+        const celebrationScreen = document.getElementById('celebration-screen');
+        const floatingHearts = document.getElementById('floating-hearts');
+        const quoteContainer = document.getElementById('quote-container');
+        const secretBtn = document.getElementById('show-secret');
+        const secretMsg = document.getElementById('secret-message');
+        const resetBtn = document.getElementById('reset-btn');
+
+        const noTexts = [
+            "Are you sure?", "Really??", "Think again!", "Pwease? 🥺",
+            "Don't do this...", "I'm gonna cry", "Breaking my heart!",
+            "No way!", "Maybe yes?", "Try again!"
         ];
-        let index = 0;
-        noButton.addEventListener("click", function() {
-            if (index < messages.length) {
-                noButton.innerText = messages[index];
-                index++;
-                yesButton.style.fontSize = `${20 + index * 5}px`;
+
+        const quotes = [
+            "Every moment with you is a gift.",
+            "You make my heart skip a beat.",
+            "I'm so lucky to have you, Maria.",
+            "You're the sparkle in my eye.",
+            "Life is better with you by my side.",
+            "You are my favorite person!",
+            "I love you more than words can say."
+        ];
+
+        let noCount = 0;
+        let yesScale = 1;
+        let quoteIndex = 0;
+
+        // Create floating hearts background
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+            heart.onclick = (e) => {
+                e.stopPropagation();
+                createBurst(e.clientX, e.clientY);
+                heart.remove();
+            };
+
+            floatingHearts.appendChild(heart);
+            setTimeout(() => { if(heart.parentNode) heart.remove(); }, 5000);
+        }
+
+        function createBurst(x, y) {
+            const burst = document.createElement('div');
+            burst.classList.add('burst');
+            burst.innerHTML = '💖';
+            burst.style.left = (x - 10) + 'px';
+            burst.style.top = (y - 10) + 'px';
+            burst.style.fontSize = '30px';
+            document.body.appendChild(burst);
+            setTimeout(() => burst.remove(), 500);
+        }
+
+        setInterval(createFloatingHeart, 400);
+
+        function moveNoButton() {
+            if (noCount < 20) {
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+                noBtn.style.zIndex = '1000';
+                noBtn.innerText = noTexts[Math.min(noCount, noTexts.length - 1)];
+                yesScale += 0.25;
+                yesBtn.style.transform = `scale(${yesScale})`;
+                noCount++;
+            }
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', (e) => { e.preventDefault(); moveNoButton(); });
+
+        yesBtn.addEventListener('click', () => {
+            askScreen.style.display = 'none';
+            celebrationScreen.style.display = 'flex';
+            document.body.style.background = 'linear-gradient(45deg, #ff758c 0%, #ff7eb3 100%)';
+            createConfettiEffect();
+            startQuotes();
+            bgMusic.play().catch(e => console.log("Audio play blocked:", e));
+        });
+
+        musicToggle.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicToggle.innerText = '🔊';
             } else {
-                alert("Okay, you will be my valentine next year and the years there after 😭");
+                bgMusic.pause();
+                musicToggle.innerText = '🔇';
             }
         });
 
-        yesButton.addEventListener("click", function() {
-            let video = document.createElement('iframe');
-            video.width = '560';
-            video.height = '315';
-            video.src = 'https://www.youtube.com/embed/DeggZZLnyHU?autoplay=1&rel=0';
-            video.frameBorder = '0';
-            video.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-            video.allowFullscreen = true;
-            let container = document.getElementById("videoContainer");
-            container.innerHTML = "";
-            container.appendChild(video);
-            
-            alert("Yay! The peoples are happy! 🐻💕");
+        function startQuotes() {
+            setInterval(() => {
+                quoteContainer.style.opacity = 0;
+                setTimeout(() => {
+                    quoteIndex = (quoteIndex + 1) % quotes.length;
+                    quoteContainer.innerText = `"${quotes[quoteIndex]}"`;
+                    quoteContainer.style.opacity = 1;
+                }, 500);
+            }, 4000);
+        }
+
+        secretBtn.addEventListener('click', () => {
+            secretMsg.style.display = secretMsg.style.display === 'block' ? 'none' : 'block';
+            secretBtn.innerText = secretMsg.style.display === 'block' ? "Hide Secret" : "A Secret for You... 🤫";
         });
+
+        resetBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+        function createConfettiEffect() {
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    if (Math.random() > 0.5) {
+                        confetti.innerHTML = '❤️';
+                        confetti.style.background = 'none';
+                        confetti.style.fontSize = '20px';
+                    }
+                    document.body.appendChild(confetti);
+                    const animation = confetti.animate([
+                        { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                        { transform: `translateY(100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                    ], { duration: Math.random() * 3000 + 2000, easing: 'cubic-bezier(0, .9, .6, 1)' });
+                    animation.onfinish = () => confetti.remove();
+                }, i * 20);
+            }
+        }
     </script>
 </body>
 </html>
